@@ -1,4 +1,4 @@
-from flask import Flask, jsonify, request, render_template
+from flask import Flask, jsonify, request, render_template,make_response
 from flask_restful import Api, Resource
 from flask_httpauth import HTTPTokenAuth
 from database import (
@@ -78,7 +78,13 @@ class GetAllUsers(Resource):
 
 class Home(Resource):
     def get(self):
-        return render_template("index.html")
+        # Generate the HTML content using render_template
+        html = render_template('index.html')
+        
+        # Create a response with correct Content-Type
+        response = make_response(html)
+        response.headers['Content-Type'] = 'text/html'
+        return response
 
 api.add_resource(Users, "/users")
 api.add_resource(GetAllUsers, "/allUsers")
